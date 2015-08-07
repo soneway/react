@@ -158,31 +158,77 @@ var divEl = document.getElementById('div');
 //React.render(<Hello name="world"/>, divEl);
 
 
-var User = React.createClass({
-    getInitialState  : function () {
+//var User = React.createClass({
+//    getInitialState  : function () {
+//        return {
+//            data: {
+//                detail: []
+//            }
+//        };
+//    },
+//    componentDidMount: function () {
+//        $.jsonp('http://app.gd.sohu.com/minisite/xtep/20140530/get.php?act=list&page=1&perpage=10&order=0&code=aa1c9153608a7755b7c20e97c0eade27&vname=jtoolrs0', function () {
+//            this.setState({
+//                data: jtoolrs0.data
+//            });
+//        }.bind(this));
+//    },
+//    render           : function () {
+//        return (
+//            <div class="list">
+//                {
+//                    this.state.data.detail.map(function (item) {
+//                        return (<p>{item.id} {item.nickname}</p>);
+//                    })
+//                }
+//            </div>
+//        );
+//    }
+//});
+//React.render(<User/>, divEl);
+
+var config = [
+    {
+        href: 'http://sohu.com',
+        text: '搜狐网'
+    },
+    {
+        href: 'http://qq.com',
+        text: '腾讯网'
+    },
+    {
+        href: 'http://sina.com',
+        text: '新浪网'
+    }
+];
+var El = React.createClass({
+    getInitialState: function () {
         return {
-            data: {
-                detail: []
-            }
+            status: 1
         };
     },
-    componentDidMount: function () {
-        $.jsonp('http://app.gd.sohu.com/minisite/xtep/20140530/get.php?act=list&page=1&perpage=10&order=0&code=aa1c9153608a7755b7c20e97c0eade27&vname=jtoolrs0', function () {
-            this.setState({
-                data: jtoolrs0.data
-            });
-        }.bind(this));
+    getDefaultProps: function () {
+        return {
+            config: []
+        };
     },
-    render           : function () {
+    propTypes      : {
+        config: React.PropTypes.array
+    },
+    render         : function () {
+        var config = this.props.config;
+        var items = config.map(function (item) {
+            return (
+                <a href={item.href}>
+                    {item.text}
+                </a>
+            );
+        });
         return (
-            <div class="list">
-                {
-                    this.state.data.detail.map(function (item) {
-                        return (<p>{item.id} {item.nickname}</p>);
-                    })
-                }
+            <div className="el">
+                {items}
             </div>
         );
     }
 });
-React.render(<User/>, divEl);
+React.render(<El config={config}/>, divEl);
